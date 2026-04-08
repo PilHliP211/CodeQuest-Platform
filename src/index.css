@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-pixel: 'Press Start 2P', cursive;
+}
+
+img,
+canvas {
+  image-rendering: pixelated;
+}
