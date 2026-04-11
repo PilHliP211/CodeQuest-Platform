@@ -1,0 +1,13 @@
+# CodeQuest Platform — Code Owners
+#
+# These owners are the default reviewers for any pull request that touches
+# files matching the patterns below. GitHub automatically requests their
+# review when a PR is opened.
+#
+# Combine this file with a branch protection rule on `main` that requires
+# "Review from Code Owners" to enforce approval before merge.
+#
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo.
+* @PilHliP211
