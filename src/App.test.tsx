@@ -14,6 +14,9 @@ vi.mock('@/components/Profile/SettingsScreen', () => ({
 vi.mock('@/components/HUD/HUDLayout', () => ({
   HUDLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
+vi.mock('@/components/Map/MapScreen', () => ({
+  MapScreen: () => <div>map-screen</div>,
+}));
 
 import { useProfile } from '@/engine/useProfile';
 const mockUseProfile = vi.mocked(useProfile);
@@ -48,7 +51,7 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    expect(screen.getByText('Your adventure begins...')).toBeInTheDocument();
+    expect(screen.getByText('map-screen')).toBeInTheDocument();
   });
 
   it('shows NameEntryScreen when there is no content error and profile is null', () => {
