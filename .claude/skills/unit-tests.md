@@ -9,6 +9,8 @@ Unit tests cover **pure logic and state**: parsers, evaluators, type guards, sto
 
 Always pair this skill with `testing-strategy`. The rule from that doc — **assert on outcomes, not mechanics** — is non-negotiable here.
 
+Tests in this layer freely import the gold-standard Flag Hunter pack as a fixture (lesson ids like `'japan'`, blocks like `moveEast`, etc.). Platform code never does. See `testing-strategy → Gold Standard Test Pack` for the full rule.
+
 ## Tooling
 
 Vitest is the test runner. If `vitest` is missing from `package.json`, install it in this story:

@@ -47,6 +47,46 @@ Each layer has a skill:
 | `e2e-tests`         | Critical end-to-end flows (lesson playthrough, deployment smoke) |
 | `invariant-tests`   | Security-critical code — the interpreter sandbox                |
 
+## Gold Standard Test Pack
+
+CodeQuest is a content-pack-driven platform: every lesson, narrative, block, and canvas challenge lives in a JSON content pack, and `src/` contains zero hardcoded lesson content (see hard rule #3 in `CLAUDE.md`). This raises an obvious testing question: **what content do the tests run against?**
+
+The answer is one canonical fixture: **`content/flag-hunter/`** is the gold standard test pack. The Flag Hunter pack — Japan and any future lessons added to it — is the substrate against which the platform's mechanics are validated. It exists in the repo for two reasons: (a) it's a real content pack we ship as v1, and (b) it's the test fixture for everything else.
+
+### The Two-Way Rule
+
+| Layer                | May reference Flag Hunter? |
+| -------------------- | -------------------------- |
+| Anything under `src/` (platform code) | **No.** Platform code never names a pack, lesson, block, or sprite. The content loader takes whatever pack is configured. |
+| Anything under `src/**/*.test.ts(x)` | **Yes.** Tests freely import Flag Hunter fixtures, name `'japan'` as a lesson id, assert on `moveEast`, etc. |
+| Anything under `e2e/`                 | **Yes.** The golden-path E2E playthrough is the gold standard pack's first lesson. |
+
+So a test can read:
+
+```ts
+const runner = createLessonRunner(japanLesson);
+runner.handle({ type: 'phase1-complete' });
+expect(runner.state.phase).toBe(2);
+```
+
+…but the corresponding `src/engine/lessonRunner.ts` must contain no string `'japan'`, no `if (lessonId === ...)`, and no implicit assumption that the lesson has exactly three phases of any particular shape it didn't read from the pack.
+
+### Why One Pack Is Enough
+
+Adding a second content pack later (Pirates, Space Cadets, whatever) does **not** require duplicating the test suite. The pack-agnostic boundary is enforced by **one specific test**: the content-pack validator (S-03.02 / `isCourse` type guard) plus its `invariant-tests` property suite. That test answers the question "does the platform accept *every* valid pack and reject *every* invalid one?" — for all packs, including ones that don't exist yet.
+
+If a future pack reveals a regression that the gold-standard pack didn't catch, the right fix is **never** "add a Pirate-specific test". The right fix is one of:
+
+1. The validator missed a constraint — add the constraint and a property test for it.
+2. Platform code made a Flag-Hunter-shaped assumption — fix the platform code, no new test needed.
+3. The new pack is genuinely invalid against the schema — the validator already caught it; reject the pack.
+
+### The Anti-Pattern
+
+A test that passes against Flag Hunter but exposes a Flag-Hunter-specific assumption inside `src/` has **broken** pack agnosticism, not validated it. The fix is to make the platform code accept any valid pack — never to make the test more specific, and never to add a second hand-crafted pack to the test suite to "diversify".
+
+When in doubt: the gold standard pack is allowed to be the only thing the tests know about. The platform is not allowed to know about it at all.
+
 ## What Deserves a Test
 
 Before writing a test, ask: **"What learner-visible behavior would break if this code regressed?"** If you cannot answer in one sentence, don't write the test.
@@ -56,7 +96,7 @@ Write a test for:
 - **State transitions** (profileStore, progressStore, lessonRunner phase machine).
 - **Component contracts** — what the component renders given props, how it reacts to user events.
 - **Security boundaries** — the interpreter sandbox, content pack validation.
-- **Critical journeys** — the full Japan lesson in Playwright.
+- **Critical journeys** — the gold-standard pack's first lesson, end-to-end, in Playwright.
 
 Do **not** write a test for:
 - Type-only files (`src/types/content.ts`). `tsc --noEmit` is the test.
@@ -109,7 +149,7 @@ Note what the assertion does **not** check: it does not verify which internal fu
 | State machine (lessonRunner)      | Unit tests — every transition + invalid inputs are rejected                      |
 | Interpreter / sandbox             | Unit tests **and** invariant tests (fast-check)                                  |
 | Content pack validator            | Unit tests — valid pack passes, each schema violation is caught                  |
-| A full lesson flow                | Playwright E2E — one happy path run from name entry to flag collected            |
+| A full lesson flow                | Playwright E2E — one happy path through the gold-standard pack's first lesson, name entry to lesson reward earned |
 | Types only / config only          | No tests. `tsc --noEmit` covers it.                                              |
 
 ## Test Infrastructure Installed As Needed

@@ -14,6 +14,8 @@ Use this skill **only** for:
 
 Do not use property-based tests for UI, stores, or anything a learner directly interacts with — example-based component/unit tests are faster to read and debug.
 
+Note that the content-pack validator (E-03 / `isCourse`) is the **one** test in the project that must work for **every** valid pack — present and future. The gold-standard Flag Hunter pack is not enough for that boundary; the property test fills the gap. See `testing-strategy → Gold Standard Test Pack` for why one canonical fixture is sufficient for everything else.
+
 ## Tooling
 
 First story that needs this installs:

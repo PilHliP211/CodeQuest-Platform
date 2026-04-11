@@ -5,17 +5,17 @@ description: How to write Playwright end-to-end tests that drive a real browser 
 
 # End-to-End Tests (Playwright)
 
-E2E tests prove the learner can complete a real journey — name entry to flag collected — in a real browser against the built app. They are the only layer that exercises Blockly, Monaco, Canvas, interpreter, state machine, content pack, and localStorage together.
+E2E tests prove the learner can complete a real journey — name entry through a full lesson to the lesson's reward — in a real browser against the built app. They are the only layer that exercises Blockly, Monaco, Canvas, interpreter, state machine, content pack, and localStorage together.
 
 They are also the most expensive layer to write and maintain. **Keep them few, keep them critical.**
 
-Pair with `testing-strategy`. The outcome-first rule is even stricter in E2E — you assert on what a learner sees, never on what the browser devtools reveal.
+Pair with `testing-strategy`. The outcome-first rule is even stricter in E2E — you assert on what a learner sees, never on what the browser devtools reveal. The E2E suite runs against the **gold-standard Flag Hunter content pack** as the canonical fixture; see `testing-strategy → Gold Standard Test Pack` for why one pack is enough.
 
 ## When to Write an E2E Test
 
 Only three categories:
 
-1. **The golden path of a lesson** — full playthrough of the Japan lesson from first launch to flag collected. This is the E-14 integration test.
+1. **The golden path of the gold-standard pack's first lesson** — full playthrough from first launch through to the lesson's reward. The current implementation is the Japan lesson of the Flag Hunter pack (E-14). When Flag Hunter grows new lessons, the golden-path test stays on lesson #1; new lessons are exercised at lower layers.
 2. **A deployment smoke test** — after deploy, the site loads at the correct base path. This is E-15.
 3. **A cross-subsystem contract** you cannot verify in a component test — e.g., "Phase 2 unlock in state machine persists into Phase 3 via localStorage after a full page reload".
 

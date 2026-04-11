@@ -9,6 +9,8 @@ Component tests verify that **a user interacting with the component sees the rig
 
 Pair this with `testing-strategy` (the rules) and `react-component-structure` (the code).
 
+Component tests are allowed to render with the gold-standard Flag Hunter content pack as their context fixture — see `testing-strategy → Gold Standard Test Pack`. The component being tested never knows which pack it's looking at; the test does.
+
 ## Tooling
 
 First component-test story in the project installs and configures:
@@ -101,7 +103,7 @@ Note that the **only spy** is at the component boundary (the `onSubmit` callback
 ## What To Test, What Not To Test
 
 Test:
-- **What renders** given a set of props (presence of headings, buttons, flag tiles, dialogue text).
+- **What renders** given a set of props (presence of headings, buttons, collectible tiles, dialogue text).
 - **Primary user interactions** (click, type, keyboard nav where it matters).
 - **Accessibility affordances** (label on input, role on button, `aria-live` on dialogue box).
 - **Visual state changes from user action** (error appears, button becomes disabled, toggle flips).
