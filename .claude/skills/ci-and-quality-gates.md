@@ -7,33 +7,38 @@ description: The deterministic checks that must pass before code merges. Load wh
 
 The project enforces code quality through deterministic checks. There are no "please remember to" rules — every standard is automated.
 
-## The Four Gates
+## The Gates
 
 | Gate | Command | What It Catches |
 |------|---------|----------------|
 | Lint | `npm run lint` | Style, common bugs, type-aware rules |
 | Type Check | `npx tsc --noEmit` | Type errors |
+| Unit + Component Tests | `npm run test` | Behavior regressions (Vitest) |
 | Format | `npm run format:check` | Style drift from Prettier |
 | Build | `npm run build` | Anything the above missed + bundling errors |
+| E2E (CI only, separate job) | `npm run test:e2e` | Cross-subsystem breakage in the golden-path journey |
 
-All four must pass:
-- Locally before pushing
+All gates must pass:
+- Locally before pushing (E2E only for stories that touch a critical flow)
 - In pre-commit hook (lint + format on staged files)
-- In GitHub Actions CI (full suite, on every PR)
+- In GitHub Actions CI (full suite + E2E, on every PR)
+
+See the `testing-strategy` skill for what to test, and `unit-tests` / `component-tests` / `e2e-tests` / `invariant-tests` for how.
 
 ## CI Workflow
 
-`.github/workflows/ci.yml` runs on every push and PR. The job is:
+`.github/workflows/ci.yml` runs on every push and PR. The primary job:
 
 ```yaml
 - npm ci
 - npm run lint
 - npx tsc --noEmit
+- npm run test          # Vitest (unit + component + invariant)
 - npm run format:check
 - npm run build
 ```
 
-In that order. First failure stops the run.
+In that order. First failure stops the run. A parallel `e2e` job runs `npm run test:e2e` (Playwright) after the build succeeds.
 
 ## Pre-Commit Hook
 
