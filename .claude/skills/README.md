@@ -31,6 +31,18 @@ These are focused guidance documents for AI coding agents working on CodeQuest. 
 | `content-pack-system` | Anything touching lessons, narrative, blocks, or canvas API |
 | `security-rules` | Working on the interpreter, sandbox, or player code path |
 
+## Testing (Outcome-Focused Validation)
+
+Start with `testing-strategy` — it defines the philosophy every other testing skill implements.
+
+| Skill | When to Load |
+|-------|-------------|
+| `testing-strategy` | **Required** before any story producing executable code or behavior |
+| `unit-tests` | Writing Vitest tests for pure logic, stores, parsers, state machines |
+| `component-tests` | Writing Testing Library tests for React components |
+| `e2e-tests` | Writing Playwright tests for critical end-to-end learner journeys |
+| `invariant-tests` | Writing fast-check property tests for the interpreter sandbox or content pack validator |
+
 ## Cross-Cutting
 
 | Skill | When to Load |
