@@ -4,6 +4,7 @@ import { ContentErrorContext } from '@/engine/ContentContext';
 import { NameEntryScreen } from '@/components/Profile/NameEntryScreen';
 import { SettingsScreen } from '@/components/Profile/SettingsScreen';
 import { HUDLayout } from '@/components/HUD/HUDLayout';
+import { MapScreen } from '@/components/Map/MapScreen';
 
 function App(): React.JSX.Element {
   const contentError = useContext(ContentErrorContext);
@@ -48,9 +49,7 @@ function App(): React.JSX.Element {
         setSettingsOpen(true);
       }}
     >
-      <div className="flex flex-1 items-center justify-center">
-        <p className="font-pixel text-green-400">Your adventure begins...</p>
-      </div>
+      <MapScreen />
     </HUDLayout>
   );
 }
