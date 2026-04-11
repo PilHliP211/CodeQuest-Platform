@@ -8,11 +8,13 @@ Gamified coding education for kids 8-12. Static React app, no backend. All lesso
 npm run dev          # Dev server
 npm run build        # Production build
 npm run lint         # ESLint (strict, type-checked)
+npm run test         # Vitest (unit + component + invariant)
+npm run test:e2e     # Playwright (critical journeys only)
 npm run format:check # Prettier check
 npx tsc --noEmit     # Type check
 ```
 
-All four must pass before committing: `lint`, `tsc --noEmit`, `format:check`, `build`.
+All gates must pass before committing: `lint`, `tsc --noEmit`, `test`, `format:check`, `build`. `test:e2e` runs in CI on every PR.
 
 ## Hard Rules
 
@@ -21,6 +23,7 @@ All four must pass before committing: `lint`, `tsc --noEmit`, `format:check`, `b
 3. No hardcoded lesson content — belongs in content pack JSON
 4. No `console.log` — linter enforces `warn`/`error` only
 5. No `eslint-disable` — fix the code
+6. Tests assert on outcomes a learner can observe, never on internal mechanics — see `.claude/skills/testing-strategy.md`
 
 ## Where to Find Things
 

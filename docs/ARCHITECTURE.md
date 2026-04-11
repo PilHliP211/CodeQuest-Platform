@@ -246,7 +246,24 @@ If server-side features are needed (auth, cross-device sync, classroom managemen
 
 ---
 
-## 8. Key Technical Decisions & Rationale
+## 8. Testing & Validation
+
+CodeQuest uses an **outcome-focused validation strategy**: every test asserts on behavior a learner or caller can observe, never on internal mechanics. The full philosophy, the test pyramid, the validation loop, and the per-layer guidance live in `.claude/skills/`. The high-level shape:
+
+| Layer       | Tool             | Scope                                                             |
+| ----------- | ---------------- | ----------------------------------------------------------------- |
+| Unit        | Vitest           | Pure logic, stores, parsers, state machines                       |
+| Component   | Vitest + Testing Library | React component behavior (queries by role/label, never CSS) |
+| Invariant   | fast-check       | Security boundary — interpreter sandbox, content pack validator   |
+| End-to-end  | Playwright       | One golden-path playthrough of the gold-standard content pack     |
+
+The platform is content-pack-driven, so a single canonical fixture — `content/flag-hunter/` — serves as the **gold-standard test pack** that all tests run against. Platform code under `src/` never references it; tests freely do. New content packs are validated at runtime by the content-pack validator and its property tests, not by duplicating the test suite.
+
+See [`.claude/skills/testing-strategy.md`](../.claude/skills/testing-strategy.md) for the full doc.
+
+---
+
+## 9. Key Technical Decisions & Rationale
 
 | Decision         | Choice                 | Rationale                                                    |
 | ---------------- | ---------------------- | ------------------------------------------------------------ |
@@ -258,3 +275,4 @@ If server-side features are needed (auth, cross-device sync, classroom managemen
 | Persistence      | localStorage           | Zero infrastructure for v1; clear upgrade path to Firebase   |
 | Styling          | Tailwind CSS           | Fast iteration; works well with Vite; pixel-art aesthetic achievable |
 | Sprites          | OpenGameArt.org        | CC-licensed; large library; pixel art focus                  |
+| Testing strategy | Outcome-focused, gold-standard pack | Refactor-resistant tests; one fixture validates all mechanics; pack-agnostic platform code is enforced by the validator |
