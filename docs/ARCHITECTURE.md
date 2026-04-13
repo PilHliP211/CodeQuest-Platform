@@ -248,7 +248,7 @@ If server-side features are needed (auth, cross-device sync, classroom managemen
 
 ## 8. Testing & Validation
 
-CodeQuest uses an **outcome-focused validation strategy**: every test asserts on behavior a learner or caller can observe, never on internal mechanics. The full philosophy, the test pyramid, the validation loop, and the per-layer guidance live in `.claude/skills/`. The high-level shape:
+CodeQuest uses an **outcome-focused validation strategy**: every test asserts on behavior a learner or caller can observe, never on internal mechanics. The full philosophy, the test pyramid, the validation loop, and the per-layer guidance for Claude and Codex live in the shared `.claude/skills/` docs. The high-level shape:
 
 | Layer       | Tool             | Scope                                                             |
 | ----------- | ---------------- | ----------------------------------------------------------------- |
@@ -259,7 +259,7 @@ CodeQuest uses an **outcome-focused validation strategy**: every test asserts on
 
 The platform is content-pack-driven, so a single canonical fixture — `content/flag-hunter/` — serves as the **gold-standard test pack** that all tests run against. Platform code under `src/` never references it; tests freely do. New content packs are validated at runtime by the content-pack validator and its property tests, not by duplicating the test suite.
 
-See [`.claude/skills/testing-strategy.md`](../.claude/skills/testing-strategy.md) for the full doc.
+See the shared [`.claude/skills/testing-strategy.md`](../.claude/skills/testing-strategy.md) doc for the full strategy.
 
 ---
 
