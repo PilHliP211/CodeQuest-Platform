@@ -47,4 +47,5 @@ Start with `testing-strategy` — it defines the philosophy every other testing 
 
 | Skill | When to Load |
 |-------|-------------|
+| `human-testable-increments` | Creating or updating epics/stories so every epic ends in an `npm run dev`-visible behavior change with automated coverage |
 | `anti-patterns` | Quick "what not to do" reference |

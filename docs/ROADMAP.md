@@ -2,13 +2,15 @@
 
 **Version:** 0.1 (Planning)
 **Status:** Draft
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-04-13
 
 ---
 
 ## Philosophy
 
 CodeQuest is built in thin, vertical slices. Each phase delivers a fully playable, shippable increment — not a collection of half-built systems. The first lesson must feel polished end-to-end before a second lesson is authored.
+
+Every remaining epic must end with a human-testable increment: a developer can run `npm run dev`, follow documented steps, and see behavior that is meaningfully different from the previous epic. If the product screen is not ready yet, the epic may add a clearly named temporary dev harness, but the automated tests must validate the underlying product behavior rather than the harness itself.
 
 ---
 
@@ -49,6 +51,7 @@ CodeQuest is built in thin, vertical slices. Each phase delivers a fully playabl
 - [ ] Content authoring UI (web-based, exports JSON + zipped assets)
 - [ ] Multi-pack loading (learner can choose between installed content packs)
 - [ ] Performance audit on map + canvas for lower-end devices
+- [ ] Human-testable checkpoint for each v2 epic: author/export a lesson in `npm run dev`, switch between packs without code changes, and cover the behavior with unit/component tests before adding new lessons
 
 **Epics in scope:** E-16, E-17, continued content for E-14
 
@@ -64,6 +67,7 @@ CodeQuest is built in thin, vertical slices. Each phase delivers a fully playabl
 - [ ] Teacher dashboard (view student progress, assign lessons)
 - [ ] Embeddable widget mode (iframe-friendly, minimal chrome)
 - [ ] Open-source content pack registry (community-contributed packs)
+- [ ] Human-testable checkpoint for each v3 epic: dev playground or emulator-backed product flow plus automated validation for parser/sandbox or sync behavior
 
 ---
 
@@ -89,3 +93,4 @@ This table shows how flag complexity maps to coding concepts. Each flag is chose
 3. **Never hardcode:** No story element, lesson data, or progression rule lives in platform code. If it's in the code, it's a bug.
 4. **Earn complexity:** Custom languages, backends, and authoring UIs are earned by proving simpler approaches are insufficient.
 5. **One kid's experience > a thousand potential users' hypothetical needs.** Build for the real kid in front of you first.
+6. **Every epic must be visible in dev.** Foundational work still needs a human-verifiable surface plus automated tests before the epic is considered done.

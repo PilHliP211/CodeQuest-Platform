@@ -34,6 +34,7 @@ Keep `CLAUDE.md` and `AGENTS.md` semantically identical; update both when AI-age
 4. No `console.log` — linter enforces `warn`/`error` only
 5. No `eslint-disable` — fix the code
 6. Tests assert on outcomes a learner can observe, never on internal mechanics — see `.claude/skills/testing-strategy.md`
+7. Every remaining epic must include a human-testable `npm run dev` increment with automated coverage — see `.claude/skills/human-testable-increments.md`
 
 ## Where to Find Things
 
