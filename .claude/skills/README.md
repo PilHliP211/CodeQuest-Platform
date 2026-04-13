@@ -1,6 +1,6 @@
 # Skills Index
 
-These are focused guidance documents for AI coding agents working on CodeQuest. Each skill is a single concern. Load only what's relevant to the current task.
+These are focused guidance documents for AI coding agents working on CodeQuest. They are shared by Claude and Codex through `CLAUDE.md` and `AGENTS.md`. Each skill is a single concern. Load only what's relevant to the current task.
 
 ## Standards
 

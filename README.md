@@ -25,7 +25,7 @@ All gates must pass before merging: `lint`, `typecheck`, `test`, `format:check`,
 
 ## Contributing
 
-Coding standards, patterns, and the testing strategy live in [`.claude/skills/`](.claude/skills/). Start with [`.claude/skills/README.md`](.claude/skills/README.md) for the index, and [`.claude/skills/testing-strategy.md`](.claude/skills/testing-strategy.md) for how validation works in this repo.
+Coding standards, patterns, and the testing strategy for Claude and Codex live in the shared [`.claude/skills/`](.claude/skills/) docs. Claude reads [`CLAUDE.md`](CLAUDE.md), Codex reads [`AGENTS.md`](AGENTS.md), and both entrypoints point at the same guidance. Start with [`.claude/skills/README.md`](.claude/skills/README.md) for the index, and [`.claude/skills/testing-strategy.md`](.claude/skills/testing-strategy.md) for how validation works in this repo.
 
 ## Documentation
 
