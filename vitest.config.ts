@@ -14,5 +14,6 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, '**/.claude/**'],
     setupFiles: ['./src/test/setup.ts'],
     globals: false,
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
   },
 });
