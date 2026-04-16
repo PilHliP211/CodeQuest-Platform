@@ -56,6 +56,29 @@ export const BlockEditor = forwardRef<BlockEditorHandle, BlockEditorProps>(funct
     [],
   );
 
+  // Inject CSS to style the Phase 2 code-label text (message1) with monospace
+  // font, small size, and reduced opacity so it reads as supplemental.
+  // The selector targets any .blocklyText that follows another .blocklyText
+  // (i.e., the second message row, which is always the code label in Phase 2).
+  useEffect(() => {
+    if (phase !== 2) return undefined;
+
+    const styleEl = document.createElement('style');
+    styleEl.textContent = [
+      '.blocklyWorkspace .blocklyText ~ .blocklyText,',
+      '.blocklyFlyout .blocklyText ~ .blocklyText {',
+      '  font-family: monospace !important;',
+      '  font-size: 10px !important;',
+      '  opacity: 0.6;',
+      '}',
+    ].join('\n');
+    document.head.appendChild(styleEl);
+
+    return () => {
+      styleEl.remove();
+    };
+  }, [phase]);
+
   useEffect(() => {
     if (containerRef.current === null) {
       return undefined;
