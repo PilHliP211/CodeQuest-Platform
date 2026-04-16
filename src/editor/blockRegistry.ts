@@ -17,16 +17,27 @@ const CATEGORY_STYLE_MAP: Record<string, string> = {
 /**
  * Registers lesson block definitions with Blockly's block factory and static
  * code generator. The generated code is pre-authored content-pack text only.
+ *
+ * When `showCode` is true (Phase 2), each block gets a second message row
+ * containing the `BlockDef.code` field so learners can see the actual code
+ * their block represents.
  */
-export function registerBlocks(blocks: readonly BlockDef[]): void {
+export function registerBlocks(blocks: readonly BlockDef[], showCode = false): void {
   const blocklyDefs = blocks.map((def) => {
     const { colour: _colour, ...blocklyDefWithoutColour } = def.blocklyDef;
 
-    return {
+    const blocklyDef: Record<string, unknown> = {
       ...blocklyDefWithoutColour,
       type: def.id,
       style: CATEGORY_STYLE_MAP[def.category] ?? DEFAULT_BLOCK_STYLE,
     };
+
+    if (showCode) {
+      blocklyDef.message1 = def.code;
+      blocklyDef.args1 = [];
+    }
+
+    return blocklyDef;
   });
 
   Blockly.defineBlocksWithJsonArray(blocklyDefs);

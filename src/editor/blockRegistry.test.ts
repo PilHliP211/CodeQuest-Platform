@@ -89,4 +89,57 @@ describe('registerBlocks', () => {
 
     expect(generator({}, {})).toBe('moveEast()\n');
   });
+
+  it('omits code labels when showCode is false (Phase 1 default)', () => {
+    registerBlocks([makeBlockDef('moveEast', 'Movement', 'moveEast()')], false);
+
+    // Exact match — no message1/args1 properties should appear
+    expect(blocklyMock.defineBlocksWithJsonArray).toHaveBeenCalledWith([
+      {
+        type: 'moveEast',
+        message0: 'moveEast',
+        previousStatement: null,
+        nextStatement: null,
+        tooltip: 'moveEast',
+        helpUrl: '',
+        style: 'movement_blocks',
+      },
+    ]);
+  });
+
+  it('injects message1 from BlockDef.code when showCode is true (Phase 2)', () => {
+    registerBlocks([makeBlockDef('moveEast', 'Movement', 'moveEast()')], true);
+
+    expect(blocklyMock.defineBlocksWithJsonArray).toHaveBeenCalledWith([
+      {
+        type: 'moveEast',
+        message0: 'moveEast',
+        previousStatement: null,
+        nextStatement: null,
+        tooltip: 'moveEast',
+        helpUrl: '',
+        style: 'movement_blocks',
+        message1: 'moveEast()',
+        args1: [],
+      },
+    ]);
+  });
+
+  it('sources the code label text from BlockDef.code, not reconstructed', () => {
+    registerBlocks([makeBlockDef('moveNorth', 'Movement', 'moveNorth("fast")')], true);
+
+    expect(blocklyMock.defineBlocksWithJsonArray).toHaveBeenCalledWith([
+      {
+        type: 'moveNorth',
+        message0: 'moveNorth',
+        previousStatement: null,
+        nextStatement: null,
+        tooltip: 'moveNorth',
+        helpUrl: '',
+        style: 'movement_blocks',
+        message1: 'moveNorth("fast")',
+        args1: [],
+      },
+    ]);
+  });
 });

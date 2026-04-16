@@ -12,11 +12,14 @@ const blocklyMock = vi.hoisted(() => {
   }
 
   const lastWorkspace = { current: null as MockWorkspace | null };
+  const lastInjectOptions = { current: null as Record<string, unknown> | null };
 
   return {
     lastWorkspace,
+    lastInjectOptions,
     defineBlocksWithJsonArray: vi.fn(),
-    inject: vi.fn((_element: Element, _options: unknown): MockWorkspace => {
+    inject: vi.fn((_element: Element, options: unknown): MockWorkspace => {
+      lastInjectOptions.current = options as Record<string, unknown>;
       const workspace: MockWorkspace = {
         disposed: false,
         state: {},
@@ -91,6 +94,7 @@ const blockDefs = [makeBlockDef('moveEast', 'Movement', 'moveEast()')];
 describe('BlockEditor', () => {
   beforeEach(() => {
     blocklyMock.lastWorkspace.current = null;
+    blocklyMock.lastInjectOptions.current = null;
     blocklyMock.defineBlocksWithJsonArray.mockClear();
     blocklyMock.inject.mockClear();
     blocklyMock.save.mockClear();
@@ -109,6 +113,7 @@ describe('BlockEditor', () => {
 
     render(
       <BlockEditor
+        phase={1}
         blockDefs={blockDefs}
         availableBlocks={['moveEast']}
         isRunning={false}
@@ -128,6 +133,7 @@ describe('BlockEditor', () => {
 
     render(
       <BlockEditor
+        phase={1}
         blockDefs={blockDefs}
         availableBlocks={['moveEast']}
         isRunning={false}
@@ -143,6 +149,7 @@ describe('BlockEditor', () => {
   it('disables running while code is already running', () => {
     render(
       <BlockEditor
+        phase={1}
         blockDefs={blockDefs}
         availableBlocks={['moveEast']}
         isRunning={true}
@@ -161,6 +168,7 @@ describe('BlockEditor', () => {
     render(
       <BlockEditor
         ref={editorRef}
+        phase={1}
         blockDefs={blockDefs}
         availableBlocks={['moveEast']}
         initialState={initialState}
@@ -187,6 +195,7 @@ describe('BlockEditor', () => {
     const { unmount } = render(
       <BlockEditor
         ref={editorRef}
+        phase={1}
         blockDefs={blockDefs}
         availableBlocks={['moveEast']}
         isRunning={false}
@@ -202,5 +211,169 @@ describe('BlockEditor', () => {
     unmount();
 
     expect(editor.getState()).toEqual({});
+  });
+
+  describe('Phase 1', () => {
+    it('renders the workspace as editable', () => {
+      render(
+        <BlockEditor
+          phase={1}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(blocklyMock.lastInjectOptions.current).toMatchObject({ readOnly: false });
+    });
+
+    it('shows the Run button', () => {
+      render(
+        <BlockEditor
+          phase={1}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(screen.getByRole('button', { name: /run/i })).toBeInTheDocument();
+    });
+
+    it('does not show the code-label tooltip button', () => {
+      render(
+        <BlockEditor
+          phase={1}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(
+        screen.queryByRole('button', { name: /what are these code labels/i }),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Phase 2', () => {
+    it('renders the workspace as editable', () => {
+      render(
+        <BlockEditor
+          phase={2}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(blocklyMock.lastInjectOptions.current).toMatchObject({ readOnly: false });
+    });
+
+    it('shows the Run button', () => {
+      render(
+        <BlockEditor
+          phase={2}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(screen.getByRole('button', { name: /run/i })).toBeInTheDocument();
+    });
+
+    it('shows the code-label tooltip button', () => {
+      render(
+        <BlockEditor
+          phase={2}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(
+        screen.getByRole('button', { name: /what are these code labels/i }),
+      ).toBeInTheDocument();
+    });
+
+    it('registers blocks with showCode=true so each block carries its code field', () => {
+      render(
+        <BlockEditor
+          phase={2}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(blocklyMock.defineBlocksWithJsonArray).toHaveBeenCalledWith([
+        {
+          type: 'moveEast',
+          message0: 'moveEast',
+          previousStatement: null,
+          nextStatement: null,
+          tooltip: 'moveEast',
+          helpUrl: '',
+          style: 'movement_blocks',
+          message1: 'moveEast()',
+          args1: [],
+        },
+      ]);
+    });
+  });
+
+  describe('Phase 3', () => {
+    it('renders the workspace as read-only', () => {
+      render(
+        <BlockEditor
+          phase={3}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(blocklyMock.lastInjectOptions.current).toMatchObject({ readOnly: true });
+    });
+
+    it('hides the Run button so blocks cannot be run in read-only mode', () => {
+      render(
+        <BlockEditor
+          phase={3}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(screen.queryByRole('button', { name: /run/i })).not.toBeInTheDocument();
+    });
+
+    it('does not show the code-label tooltip button', () => {
+      render(
+        <BlockEditor
+          phase={3}
+          blockDefs={blockDefs}
+          availableBlocks={['moveEast']}
+          isRunning={false}
+          onCodeGenerated={vi.fn()}
+        />,
+      );
+
+      expect(
+        screen.queryByRole('button', { name: /what are these code labels/i }),
+      ).not.toBeInTheDocument();
+    });
   });
 });
