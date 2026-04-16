@@ -121,6 +121,25 @@ describe('BlockEditor', () => {
     expect(handleCodeGenerated).toHaveBeenCalledWith('moveEast()\n');
   });
 
+  it('passes an empty program to the learner flow without crashing', async () => {
+    const handleCodeGenerated = vi.fn();
+    const user = userEvent.setup();
+    javascriptMock.workspaceToCode.mockReturnValue('');
+
+    render(
+      <BlockEditor
+        blockDefs={blockDefs}
+        availableBlocks={['moveEast']}
+        isRunning={false}
+        onCodeGenerated={handleCodeGenerated}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: /run/i }));
+
+    expect(handleCodeGenerated).toHaveBeenCalledWith('');
+  });
+
   it('disables running while code is already running', () => {
     render(
       <BlockEditor
@@ -160,5 +179,28 @@ describe('BlockEditor', () => {
     editor.setState(nextState);
 
     expect(editor.getState()).toEqual(nextState);
+  });
+
+  it('returns an empty state when the workspace is unavailable', () => {
+    const editorRef = createRef<BlockEditorHandle>();
+
+    const { unmount } = render(
+      <BlockEditor
+        ref={editorRef}
+        blockDefs={blockDefs}
+        availableBlocks={['moveEast']}
+        isRunning={false}
+        onCodeGenerated={vi.fn()}
+      />,
+    );
+
+    const editor = editorRef.current;
+    if (editor === null) {
+      throw new Error('Expected BlockEditor ref to be set');
+    }
+
+    unmount();
+
+    expect(editor.getState()).toEqual({});
   });
 });

@@ -1,0 +1,70 @@
+{
+  "title": "Flag Hunter Block Editor Dev Harness",
+  "availableBlocks": ["moveEast", "moveWest", "moveNorth", "moveSouth"],
+  "blocks": [
+    {
+      "id": "moveEast",
+      "label": "Move East",
+      "category": "Movement",
+      "color": 160,
+      "code": "moveEast()",
+      "blocklyDef": {
+        "type": "moveEast",
+        "message0": "Move East",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160,
+        "tooltip": "Move one step east",
+        "helpUrl": ""
+      }
+    },
+    {
+      "id": "moveWest",
+      "label": "Move West",
+      "category": "Movement",
+      "color": 160,
+      "code": "moveWest()",
+      "blocklyDef": {
+        "type": "moveWest",
+        "message0": "Move West",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160,
+        "tooltip": "Move one step west",
+        "helpUrl": ""
+      }
+    },
+    {
+      "id": "moveNorth",
+      "label": "Move North",
+      "category": "Movement",
+      "color": 160,
+      "code": "moveNorth()",
+      "blocklyDef": {
+        "type": "moveNorth",
+        "message0": "Move North",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160,
+        "tooltip": "Move one step north",
+        "helpUrl": ""
+      }
+    },
+    {
+      "id": "moveSouth",
+      "label": "Move South",
+      "category": "Movement",
+      "color": 160,
+      "code": "moveSouth()",
+      "blocklyDef": {
+        "type": "moveSouth",
+        "message0": "Move South",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 160,
+        "tooltip": "Move one step south",
+        "helpUrl": ""
+      }
+    }
+  ]
+}
