@@ -30,6 +30,14 @@ S-06.01 (install + theme config)
               └── S-06.07 (pixel-art theme — extends blocklyTheme.ts from S-06.01)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev` and open the block editor from the lesson surface if E-11 exists, otherwise from a temporary `/__dev/block-editor` harness. The screen must load the Flag Hunter movement blocks, show only the phase-appropriate palette, let a developer arrange or select a small block sequence, click "Run", and see the generated code string or parent callback result. The editor should look intentionally CodeQuest-themed, not like default Blockly.
+
+**Automated Validation:** Add or update unit tests for `blockRegistry`/toolbox generation and component tests for `BlockEditor` covering available-block filtering, the Run button contract, empty workspace behavior, disabled running state, and serialization save/restore. Do not assert on Blockly's internal SVG structure.
+
+**Temporary Surface Decision:** A `/__dev/block-editor` harness is acceptable until `LessonScreen` exists in E-11. Remove it or fold it into the real lesson screen once E-11 provides the product path.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |

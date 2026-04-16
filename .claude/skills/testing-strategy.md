@@ -21,6 +21,12 @@ CodeQuest validates behavior, not implementation. A test earns its place only if
 
 If the implementation changes but the observed outcome stays the same, the test must keep passing. If your test has to change every time the code is refactored, you are testing mechanics.
 
+## Epic-Level Validation
+
+Every epic must also have a human-testable increment: after `npm run dev`, a developer must be able to exercise the epic and see that behavior meaningfully changed. Load `human-testable-increments` when creating or updating epic plans, checkpoint stories, or temporary dev harnesses.
+
+The automated tests should prove the same outcome at the cheapest useful layer. A temporary dev route is acceptable for human validation, but tests should target the underlying engine/component behavior unless the route is itself product behavior.
+
 ## The Test Pyramid (for this project)
 
 ```
@@ -144,6 +150,7 @@ Note what the assertion does **not** check: it does not verify which internal fu
 
 | Story touches…                    | Minimum tests                                                                    |
 | --------------------------------- | -------------------------------------------------------------------------------- |
+| Epic checkpoint / final slice     | Human `npm run dev` check + tests at the cheapest useful layer from this table   |
 | Pure function / parser / store    | Vitest unit tests — happy path + every branch + edge cases                       |
 | React component                   | Component test — renders, accessible name, primary user interaction              |
 | State machine (lessonRunner)      | Unit tests — every transition + invalid inputs are rejected                      |

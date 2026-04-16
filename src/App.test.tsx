@@ -17,12 +17,16 @@ vi.mock('@/components/HUD/HUDLayout', () => ({
 vi.mock('@/components/Map/MapScreen', () => ({
   MapScreen: () => <div>map-screen</div>,
 }));
+vi.mock('@/editor/DevBlockEditorScreen', () => ({
+  DevBlockEditorScreen: () => <div>dev-block-editor</div>,
+}));
 
 import { useProfile } from '@/engine/useProfile';
 const mockUseProfile = vi.mocked(useProfile);
 
 beforeEach(() => {
   vi.resetAllMocks();
+  window.history.pushState({}, '', '/');
   mockUseProfile.mockReturnValue({
     profile: { name: 'Hana', createdAt: '2026-01-01T00:00:00.000Z' },
     createProfile: vi.fn(),
@@ -64,5 +68,13 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.getByText('name-entry')).toBeInTheDocument();
+  });
+
+  it('shows the temporary block editor harness on the dev route', () => {
+    window.history.pushState({}, '', '/codequest-platform/__dev/block-editor');
+
+    renderWithError(null);
+
+    expect(screen.getByText('dev-block-editor')).toBeInTheDocument();
   });
 });

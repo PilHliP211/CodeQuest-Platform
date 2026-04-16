@@ -36,6 +36,14 @@ S-14.01 (course.json)
                     └── S-14.09 (e2e verification)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev`, clear localStorage, enter a learner name, and complete the Japan lesson from map click through flag collection and persisted XP. This is the first full product path and should replace any subsystem-only dev harnesses left from E-06 through E-10.
+
+**Automated Validation:** Add the Playwright golden-path test for the Flag Hunter Japan lesson, plus content validation tests that ensure `course.json` and `lesson.json` satisfy the schema and expose the blocks, narratives, map node, canvas solution, and rewards needed by the full playthrough.
+
+**Temporary Surface Decision:** No temporary surface should remain after this epic unless it is explicitly useful for future debugging and documented as dev-only. The product path is the validation surface.
+
 ## What "Done" Looks Like
 
 A developer clears localStorage, opens the app, and completes the Japan lesson end-to-end without any platform code changes. Every AC in PRD F-01 through F-09 is checked off in S-14.09.

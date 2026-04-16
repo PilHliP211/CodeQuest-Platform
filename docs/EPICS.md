@@ -2,7 +2,7 @@
 
 **Version:** 0.1 (Planning)
 **Status:** Draft
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-04-13
 
 ---
 
@@ -29,6 +29,17 @@
 | E-17 | Multi-Pack Support & Remote Loading     | v2    | P2       |
 | E-18 | Custom Language / WASM Compiler         | v3    | P3       |
 | E-19 | Backend & Cross-Device Sync             | v3    | P3       |
+
+---
+
+## Epic Validation Rule
+
+Every remaining epic (E-06 onward) must end with both:
+
+- **Human Testable Increment:** `npm run dev` exposes a product screen or clearly named temporary dev harness where a developer can verify behavior meaningfully changed since the previous epic.
+- **Automated Validation:** unit, component, invariant, or E2E tests validate that same behavior at the cheapest reliable layer.
+
+Temporary routes such as `/__dev/interpreter` are allowed for foundational work, but they must be documented as dev-only and removed or folded into the product path once the relevant lesson screen exists.
 
 ---
 
@@ -136,6 +147,10 @@
 - Accessible, keyboard-navigable where possible
 - Pixel-art themed Blockly toolbox styling
 
+**Human Testable Increment:** `npm run dev` opens a lesson editor surface or temporary `/__dev/block-editor` harness where a developer can see Flag Hunter blocks, filter by phase, generate code with Run, and verify the CodeQuest Blockly theme.
+
+**Automated Validation:** Unit tests for block registration/toolbox generation; component tests for block filtering, Run button contract, disabled running state, empty workspace, and serialization.
+
 **Dependencies:** E-01, E-03, E-09
 
 ---
@@ -150,6 +165,10 @@
 - Code text is styled distinctly (monospace, small, slightly transparent)
 - Blocks remain functional (drag, connect, run) with syntax visible
 - "What's this?" tooltip explaining the concept of code inside blocks
+
+**Human Testable Increment:** `npm run dev` exposes Phase 1 vs. Phase 2 block views, through `LessonScreen` or `/__dev/block-editor?phase=2`, so a developer can see code labels appear only in Phase 2 and can open the tooltip.
+
+**Automated Validation:** Component tests for phase-specific labels, Phase 3 read-only behavior, and tooltip mouse/keyboard accessibility.
 
 **Dependencies:** E-06
 
@@ -166,6 +185,10 @@
 - Syntax editor unlocked per-lesson (stored in localStorage); once unlocked, always unlocked for that lesson
 - "Show me in blocks" fallback appears after 3 failed run attempts
 - Blocks view in Phase 3 is read-only (cannot run from blocks)
+
+**Human Testable Increment:** `npm run dev` opens a Phase 3 editor surface or temporary `/__dev/syntax-editor` harness where a developer can type code, switch to read-only blocks, and trigger the fallback after three failures.
+
+**Automated Validation:** Component tests for controlled editor behavior, editor toggle, fallback visibility, read-only blocks messaging, and unlock persistence wiring; unit tests for any autocomplete filtering helpers.
 
 **Dependencies:** E-06, E-07, E-12
 
@@ -188,6 +211,10 @@
 - Unknown function calls return a friendly "That function isn't available here" error
 - Syntax errors return a friendly parse error pointing to the line
 
+**Human Testable Increment:** `npm run dev` exposes code execution through the lesson surface or temporary `/__dev/interpreter` harness where allowed code produces a call log and blocked code produces a friendly learner-facing error.
+
+**Automated Validation:** Unit tests for parser/interpreter outcomes and friendly errors; invariant tests proving the sandbox rejects disallowed identifiers/statements across generated inputs.
+
 ---
 
 ### E-10: Canvas Renderer
@@ -201,6 +228,10 @@
 - Each drawing call animates sequentially (brief delay between steps) for visual feedback
 - `successEvaluator.ts` — semantic comparison of player's drawing calls vs. solution (with tolerance for numeric args)
 - "Reset canvas" button clears and reruns
+
+**Human Testable Increment:** `npm run dev` opens Phase 3 restore or temporary `/__dev/canvas` harness where a developer can run the Japan solution, watch sequential drawing, see success feedback, and reset the canvas.
+
+**Automated Validation:** Unit tests for renderer API, whitelist filtering, sequential animation cancellation, and success evaluation; component tests for canvas/reset behavior without pixel snapshots.
 
 **Dependencies:** E-09
 
@@ -216,6 +247,10 @@
 - Attempt counter per phase; triggers hint display after N attempts; triggers fallback after N (Phase 3)
 - Emits events consumed by the Narrative system (intro/outro scenes at phase boundaries)
 - XP awarded at phase and lesson completion per content pack config
+
+**Human Testable Increment:** `npm run dev` lets a developer enter a name, click the Japan map node, land in `LessonScreen`, advance phase state, see hints after failed attempts, and return to the map on completion.
+
+**Automated Validation:** Unit tests for every state-machine transition, invalid transition, hint trigger, narrative selection, and XP calculation; component tests for `LessonContext`/`LessonScreen` visible state changes.
 
 **Dependencies:** E-03, E-04, E-05, E-06, E-08, E-09, E-10
 
@@ -235,6 +270,10 @@
 
 **AC highlights:** See PRD F-08
 
+**Human Testable Increment:** `npm run dev` lets a developer complete or seed progress, reload, see persisted map/XP/syntax unlock state, then reset progress from Settings while preserving the learner name.
+
+**Automated Validation:** Unit tests for progress store, rehydration, total XP, syntax unlock, reset, and map node derivation; component tests for HUD XP, progress-driven map states, and reset confirmation.
+
 ---
 
 ### E-13: Flag Collection UI
@@ -250,6 +289,10 @@
 - Animated "new flag!" reveal when first added
 
 **AC highlights:** See PRD F-07
+
+**Human Testable Increment:** `npm run dev` exposes Collection from the map; a developer can see Japan as a silhouette before completion and full color with count/date/reveal after completion or seeded progress.
+
+**Automated Validation:** Component tests for `FlagTile`, `CollectionGrid`, reveal animation state, collection navigation, Escape/back behavior, and progress-driven collected/uncollected rendering.
 
 ---
 
@@ -269,6 +312,10 @@
 
 **This epic is the integration test for the entire platform.**
 
+**Human Testable Increment:** `npm run dev` supports a full Japan lesson playthrough from fresh localStorage through map, phases 1-3, flag collection, XP, and persisted completion.
+
+**Automated Validation:** Playwright golden-path E2E for the Japan lesson plus content validation tests for the course and lesson JSON.
+
 ---
 
 ### E-15: GitHub Pages Deployment
@@ -282,6 +329,10 @@
 - Custom domain (`byram.dev`) DNS already configured on personal-website repo; project pages work automatically at subpath
 - Smoke test: visit `byram.dev/codequest-platform/` after deploy, confirm app loads
 
+**Human Testable Increment:** The deployed `https://byram.dev/codequest-platform/` app loads from the subpath, accepts a learner name, renders the map, and starts the Japan lesson without asset 404s.
+
+**Automated Validation:** CI build validation plus a Playwright smoke test that can run against local preview with the production base path or a configured deployed base URL.
+
 ---
 
 ## v2 Epics (Summary)
@@ -289,8 +340,16 @@
 ### E-16: Content Authoring UI
 A web-based UI for non-developers to create content packs. Exports valid `course.json` + `lesson.json` files. Allows uploading sprites, writing narrative scripts, defining block types, and configuring the canvas challenge. Targeted at educators and parent developers.
 
+**Human Testable Increment:** `npm run dev` opens an authoring screen where a developer can create or edit a small lesson draft, preview validation errors, and export JSON that can replace the Flag Hunter fixture without platform code changes.
+
+**Automated Validation:** Unit tests for authoring serialization/validation and component tests for form flows, preview errors, and export behavior. Add E2E only for one critical authoring-to-export journey if component tests cannot cover the integration.
+
 ### E-17: Multi-Pack Support & Remote Loading
 Allow the platform to load multiple content packs and let the learner choose. Enable loading packs from remote URLs or a Firestore database, not just the repo directory.
+
+**Human Testable Increment:** `npm run dev` shows a pack picker with at least the local Flag Hunter pack and one fixture/remote-pack option; switching packs changes the map/course content without editing platform code.
+
+**Automated Validation:** Unit tests for pack discovery/loading/error states and component tests for the picker and selected-pack persistence. Add a mocked-network test for remote loading failures and friendly error display.
 
 ---
 
@@ -299,5 +358,13 @@ Allow the platform to load multiple content packs and let the learner choose. En
 ### E-18: Custom Language / WASM Compiler
 Allow content pack authors to define their own simplified programming language syntax. Compile custom language definitions to a WASM-based interpreter at build time. Enables themed languages ("Minecraft Commands", "Pirate Script", etc.).
 
+**Human Testable Increment:** `npm run dev` exposes a dev-only language playground or lesson preview where a developer can run a tiny custom-language snippet and see the same renderer calls/friendly errors as simplified JavaScript.
+
+**Automated Validation:** Unit/invariant tests for language parsing, compile output, sandbox equivalence, and renderer API isolation. Add fixture-based tests for at least one valid and one invalid custom language definition.
+
 ### E-19: Backend & Cross-Device Sync
 Firebase Auth + Firestore for learner accounts, cross-device progress sync, and optional classroom/teacher features (view student progress, assign lessons).
+
+**Human Testable Increment:** `npm run dev` exposes an auth/sync development mode where a developer can sign in with a local/emulator account, complete or seed progress, reload in a second browser context, and see the same progress.
+
+**Automated Validation:** Unit tests for sync conflict/merge rules and integration tests against the Firebase emulator or mocked repository layer. E2E should cover one login-sync-restore path once credentials and emulator setup are stable.

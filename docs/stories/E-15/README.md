@@ -22,6 +22,14 @@ S-15.01 (verify base path)
         └── S-15.03 (smoke test)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev` for a final local smoke check, then visit `https://byram.dev/codequest-platform/` after the deploy workflow completes. The deployed app must load at the subpath, accept a learner name, render the map, and start the Japan lesson without asset 404s or console errors.
+
+**Automated Validation:** Keep local build validation in CI and add a Playwright deployment smoke test that can run against either the local preview with the production base path or a configured deployed base URL. The smoke test should assert the page loads, name entry works, and the map/Japan node are visible.
+
+**Temporary Surface Decision:** Deployment validation uses the final product URL. Any dev-only routes left from earlier epics must not be linked from product UI and should not be required for the smoke test.
+
 ## Notes
 
 The CI workflow (`.github/workflows/ci.yml`) was created in E-01 (S-01.18) and runs on PRs. The deploy workflow (`.github/workflows/deploy.yml`) is new in this epic — it runs on push to `main` and deploys to `gh-pages`. These are two separate workflow files; do not merge them.

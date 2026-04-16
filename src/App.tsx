@@ -5,11 +5,17 @@ import { NameEntryScreen } from '@/components/Profile/NameEntryScreen';
 import { SettingsScreen } from '@/components/Profile/SettingsScreen';
 import { HUDLayout } from '@/components/HUD/HUDLayout';
 import { MapScreen } from '@/components/Map/MapScreen';
+import { DevBlockEditorScreen } from '@/editor/DevBlockEditorScreen';
 
 function App(): React.JSX.Element {
   const contentError = useContext(ContentErrorContext);
   const { profile } = useProfile();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const isDevBlockEditorRoute = window.location.pathname.endsWith('/__dev/block-editor');
+
+  if (isDevBlockEditorRoute) {
+    return <DevBlockEditorScreen />;
+  }
 
   if (contentError !== null) {
     return (

@@ -30,6 +30,14 @@ S-09.01 (install acorn)
                           └── S-09.07 (step mode — extends interpreter)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev` and open a temporary `/__dev/interpreter` harness unless the lesson screen already exposes code execution. The developer must be able to run an allowed snippet such as `fillBackground("white")` and see a successful call log, then run blocked code such as `window.alert("x")` or an unknown function and see a friendly learner-facing error with no stack trace.
+
+**Automated Validation:** Add unit tests for parse errors, allowed calls, unknown functions, runtime errors, loop/step behavior, and friendly formatting. Add invariant tests proving the sandbox rejects identifiers and statement forms outside the allowlist. These tests validate the interpreter itself, not the temporary harness.
+
+**Temporary Surface Decision:** The interpreter harness is dev-only and should be removed once E-11 routes player code through the lesson runner and E-10/E-14 provide visible canvas outcomes.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |
