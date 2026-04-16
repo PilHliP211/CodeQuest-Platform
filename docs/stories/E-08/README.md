@@ -28,6 +28,14 @@ S-08.01 (Monaco installed + skeleton)
 S-08.05 (unlock persistence — depends on E-12 progressStore, parallel with S-08.02+)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev` and open the Phase 3 editor from the lesson surface or temporary `/__dev/syntax-editor` harness. The developer must see the syntax editor as the primary view, switch to a read-only blocks reference view, type a Japan flag solution, and trigger the "Need help? Try blocks" fallback after three failed attempts.
+
+**Automated Validation:** Add component tests for `SyntaxEditor` and `EditorToggle`: controlled value changes, Run callback, blocks/code tab switching, read-only blocks messaging, fallback visibility after three failures, and unlock persistence when E-12 wiring is available. Add unit tests around any pure autocomplete filtering/provider helpers.
+
+**Temporary Surface Decision:** A syntax-editor dev harness is acceptable until E-11 can mount Phase 3. Remove it once the lesson runner provides the product path and E-14 covers the full playthrough.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |

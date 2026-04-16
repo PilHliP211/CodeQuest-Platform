@@ -28,6 +28,14 @@ S-11.01 (state types)
               └── S-11.06 (LessonContext — wraps all of the above)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev`, enter a learner name, click the Japan node, and land in a real `LessonScreen` instead of a console stub. The developer must be able to advance narrative, submit a success/failure action, see phase labels or challenge surfaces update, see hints after failed attempts, and return to the map when the lesson completes.
+
+**Automated Validation:** Add unit tests for every lesson runner transition, invalid transitions, hint thresholds, narrative selection, and XP calculation. Add component tests for `LessonContext`/`LessonScreen` proving map node selection opens the correct lesson and visible phase state changes after user actions.
+
+**Temporary Surface Decision:** This epic should retire the E-06 through E-10 dev harnesses where the real lesson path can exercise the same behavior. Any remaining harness must be documented as temporary and removed by E-14.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |

@@ -28,6 +28,14 @@ S-12.01 (types)
         └── S-12.06 (reset — wires into E-02 settings screen)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev`, complete or seed a lesson progress state through the app, reload the page, and confirm the map node state, syntax unlock, collected flag state, and XP survive. Then open Settings, reset progress, and confirm the learner name remains while progress returns to the initial map state.
+
+**Automated Validation:** Add unit tests for `progressStore`, storage rehydration, total XP, syntax unlock persistence, reset behavior, and `deriveNodeStates`. Add component tests for HUD XP display, map node states from progress, and the accessible reset confirmation flow.
+
+**Temporary Surface Decision:** Prefer product UI through Settings, HUD, and MapScreen. If seeding progress needs a dev-only helper before the full lesson is playable, keep it clearly dev-only and remove it once E-14 can earn progress through the Japan lesson.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |

@@ -28,6 +28,14 @@ S-10.01 (CanvasRenderer component)
         └── S-10.05 (successEvaluator — compare callLog to solution)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev` and open the canvas restore surface from Phase 3 or a temporary `/__dev/canvas` harness. The developer must be able to run the Japan solution, watch the white background and red circle draw sequentially, see success/failure feedback, and click Reset to clear the canvas and call log.
+
+**Automated Validation:** Add unit tests for `rendererAPI`, API whitelisting, sequential animation cancellation, and `successEvaluator` tolerance/call-order outcomes. Add a component test for `CanvasRenderer` that verifies the learner-visible canvas/reset contract without pixel assertions.
+
+**Temporary Surface Decision:** A canvas harness is acceptable until E-11 mounts Phase 3 and E-14 supplies the full content pack. Remove it when the Japan lesson playthrough exercises the same path.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |

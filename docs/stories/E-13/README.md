@@ -26,6 +26,14 @@ S-13.01 (types)
               └── S-13.05 (navigation — wires Grid into MapScreen)
 ```
 
+## Epic Validation
+
+**Human Testable Increment:** Run `npm run dev`, open the map, click Collection, and see the course's flags as collected or uncollected based on progress. With Japan uncollected, the tile is a silhouette with mystery text; after seeding or earning Japan completion, the tile shows the full-color flag, collection count, completion date, and first-collection reveal animation.
+
+**Automated Validation:** Add component tests for `FlagTile`, `CollectionGrid`, reveal animation state, accessible collection navigation from the map, Escape/back behavior, and progress-driven collected/uncollected rendering. Use the Flag Hunter fixture in tests; keep platform code pack-agnostic.
+
+**Temporary Surface Decision:** The collection button on MapScreen is product UI, so no dev harness should be needed. If progress seeding is needed before E-14, keep it in test helpers or dev-only setup, not in production collection logic.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |
