@@ -1,0 +1,53 @@
+{
+  "title": "Flag Hunter Syntax Editor Dev Harness",
+  "initialCode": "fillBackground(\"white\");\ndrawCircle(150, 100, 60, \"red\");\n",
+  "availableFunctions": [
+    {
+      "name": "fillBackground",
+      "signature": "fillBackground(color)",
+      "description": "Fill the canvas with a solid color.",
+      "example": "fillBackground(\"white\")"
+    },
+    {
+      "name": "drawCircle",
+      "signature": "drawCircle(x, y, radius, color)",
+      "description": "Draw a filled circle at (x, y) with the given radius and color.",
+      "example": "drawCircle(150, 100, 60, \"red\")"
+    }
+  ],
+  "availableBlocks": ["fillBackground", "drawCircle"],
+  "blocks": [
+    {
+      "id": "fillBackground",
+      "label": "Fill Background",
+      "category": "Drawing",
+      "color": 200,
+      "code": "fillBackground(\"white\")",
+      "blocklyDef": {
+        "type": "fillBackground",
+        "message0": "fill background white",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 200,
+        "tooltip": "Fill the canvas with white",
+        "helpUrl": ""
+      }
+    },
+    {
+      "id": "drawCircle",
+      "label": "Draw Circle",
+      "category": "Drawing",
+      "color": 200,
+      "code": "drawCircle(150, 100, 60, \"red\")",
+      "blocklyDef": {
+        "type": "drawCircle",
+        "message0": "draw red circle (150, 100) r=60",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 200,
+        "tooltip": "Draw a red circle in the middle",
+        "helpUrl": ""
+      }
+    }
+  ]
+}
