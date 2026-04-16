@@ -8,3 +8,8 @@ img,
 canvas {
   image-rendering: pixelated;
 }
+
+.blocklyMainBackground,
+.blocklyFlyoutBackground {
+  image-rendering: pixelated;
+}
