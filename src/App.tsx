@@ -6,15 +6,21 @@ import { SettingsScreen } from '@/components/Profile/SettingsScreen';
 import { HUDLayout } from '@/components/HUD/HUDLayout';
 import { MapScreen } from '@/components/Map/MapScreen';
 import { DevBlockEditorScreen } from '@/editor/DevBlockEditorScreen';
+import { DevSyntaxEditorScreen } from '@/editor/DevSyntaxEditorScreen';
 
 function App(): React.JSX.Element {
   const contentError = useContext(ContentErrorContext);
   const { profile } = useProfile();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const isDevBlockEditorRoute = window.location.pathname.endsWith('/__dev/block-editor');
+  const isDevSyntaxEditorRoute = window.location.pathname.endsWith('/__dev/syntax-editor');
 
   if (isDevBlockEditorRoute) {
     return <DevBlockEditorScreen />;
+  }
+
+  if (isDevSyntaxEditorRoute) {
+    return <DevSyntaxEditorScreen />;
   }
 
   if (contentError !== null) {
