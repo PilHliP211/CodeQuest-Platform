@@ -1,4 +1,4 @@
-import rawDevBlockEditorContent from '../../content/flag-hunter/dev-block-editor.json';
+import rawDevBlockEditorContent from '../../content/flag-hunter/dev-harnesses/dev-block-editor.json';
 import type { BlockDef } from '@/types/content';
 
 export interface DevBlockEditorContent {

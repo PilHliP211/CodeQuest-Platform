@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { execute, executeStep, formatErrorForDisplay, type ExecutionResult } from './interpreter';
+import {
+  execute,
+  executeStep,
+  formatErrorForDisplay,
+  type ExecutionResult,
+} from '@/engine/interpreter';
 import { loadDevInterpreterContent } from './devInterpreterContent';
 
 // NOTE: Temporary E-09 dev harness. This route (/__dev/interpreter)

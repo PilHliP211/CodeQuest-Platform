@@ -1,4 +1,4 @@
-import rawDevInterpreterContent from '../../../content/flag-hunter/dev-interpreter.json';
+import rawDevInterpreterContent from '../../content/flag-hunter/dev-harnesses/dev-interpreter.json';
 
 export interface DevInterpreterContent {
   title: string;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { loadSyntaxUnlocked, saveSyntaxUnlocked } from '@/engine/progressStore';
-import { EditorToggle, type EditorView } from './EditorToggle';
+import { EditorToggle, type EditorView } from '@/editor/EditorToggle';
 import { loadDevSyntaxEditorContent } from './devSyntaxEditorContent';
 
 // NOTE: Temporary E-08 dev harness. This route (/__dev/syntax-editor)

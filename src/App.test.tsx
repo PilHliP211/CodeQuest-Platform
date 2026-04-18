@@ -17,13 +17,13 @@ vi.mock('@/components/HUD/HUDLayout', () => ({
 vi.mock('@/components/Map/MapScreen', () => ({
   MapScreen: () => <div>map-screen</div>,
 }));
-vi.mock('@/editor/DevBlockEditorScreen', () => ({
+vi.mock('@/devHarnesses/DevBlockEditorScreen', () => ({
   DevBlockEditorScreen: () => <div>dev-block-editor</div>,
 }));
-vi.mock('@/editor/DevSyntaxEditorScreen', () => ({
+vi.mock('@/devHarnesses/DevSyntaxEditorScreen', () => ({
   DevSyntaxEditorScreen: () => <div>dev-syntax-editor</div>,
 }));
-vi.mock('@/engine/interpreter/DevInterpreterScreen', () => ({
+vi.mock('@/devHarnesses/DevInterpreterScreen', () => ({
   DevInterpreterScreen: () => <div>dev-interpreter</div>,
 }));
 

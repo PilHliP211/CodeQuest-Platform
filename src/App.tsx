@@ -5,9 +5,9 @@ import { NameEntryScreen } from '@/components/Profile/NameEntryScreen';
 import { SettingsScreen } from '@/components/Profile/SettingsScreen';
 import { HUDLayout } from '@/components/HUD/HUDLayout';
 import { MapScreen } from '@/components/Map/MapScreen';
-import { DevBlockEditorScreen } from '@/editor/DevBlockEditorScreen';
-import { DevSyntaxEditorScreen } from '@/editor/DevSyntaxEditorScreen';
-import { DevInterpreterScreen } from '@/engine/interpreter/DevInterpreterScreen';
+import { DevBlockEditorScreen } from '@/devHarnesses/DevBlockEditorScreen';
+import { DevInterpreterScreen } from '@/devHarnesses/DevInterpreterScreen';
+import { DevSyntaxEditorScreen } from '@/devHarnesses/DevSyntaxEditorScreen';
 
 function App(): React.JSX.Element {
   const contentError = useContext(ContentErrorContext);
