@@ -34,7 +34,15 @@ S-10.01 (CanvasRenderer component)
 
 **Automated Validation:** Add unit tests for `rendererAPI`, API whitelisting, sequential animation cancellation, and `successEvaluator` tolerance/call-order outcomes. Add a component test for `CanvasRenderer` that verifies the learner-visible canvas/reset contract without pixel assertions.
 
-**Temporary Surface Decision:** A canvas harness is acceptable until E-11 mounts Phase 3 and E-14 supplies the full content pack. Remove it when the Japan lesson playthrough exercises the same path.
+**Temporary Surface Decision:** A canvas harness is acceptable until E-11 mounts Phase 3 and E-14 supplies the full content pack. If E-10 adds `/__dev/canvas`, all harness code must live in `src/devHarnesses/` and any harness-only JSON must live in `content/flag-hunter/dev-harnesses/`. Do not add canvas harness files under `src/renderer/` or production lesson modules. Remove the canvas harness when the Japan lesson playthrough exercises the same path.
+
+**Dev Harness Cleanup Contract:** E-10 may add a harness only if the files are easy to delete later:
+- Route: `/__dev/canvas` in `App.tsx`
+- Screen/loader files: `src/devHarnesses/*Canvas*`
+- Harness fixture JSON: `content/flag-hunter/dev-harnesses/*canvas*`
+- App route tests: `src/App.test.tsx`
+
+E-11 must delete any E-06 through E-10 harness files whose behavior is covered by `LessonScreen`; E-14 must delete any remaining harnesses once the full Japan playthrough covers them.
 
 ## Patterns Established Here
 

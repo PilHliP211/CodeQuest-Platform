@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { BlockEditor, type BlockEditorHandle } from './BlockEditor';
+import { BlockEditor, type BlockEditorHandle } from '@/editor/BlockEditor';
 import { loadDevBlockEditorContent } from './devBlockEditorContent';
 
 // NOTE: Temporary E-07 dev harness. This route (/__dev/block-editor?phase=N)

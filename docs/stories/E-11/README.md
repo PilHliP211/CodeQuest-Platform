@@ -36,6 +36,14 @@ S-11.01 (state types)
 
 **Temporary Surface Decision:** This epic should retire the E-06 through E-10 dev harnesses where the real lesson path can exercise the same behavior. Any remaining harness must be documented as temporary and removed by E-14.
 
+**Dev Harness Removal Checklist:** When `LessonScreen` covers the same behavior, remove the matching temporary surface completely:
+- Delete the `/__dev/block-editor`, `/__dev/syntax-editor`, `/__dev/interpreter`, and `/__dev/canvas` routes from `App.tsx` as each becomes redundant.
+- Delete the matching route tests and mocks from `src/App.test.tsx`.
+- Delete obsolete harness screens/loaders from `src/devHarnesses/`.
+- Delete obsolete harness fixture JSON from `content/flag-hunter/dev-harnesses/`.
+- Keep only harnesses whose behavior is not yet covered by the real lesson flow, and list the remaining files in the E-11 PR description with the E-14 cleanup trigger.
+- Do not add new harness files outside `src/devHarnesses/` or `content/flag-hunter/dev-harnesses/`.
+
 ## Patterns Established Here
 
 | Pattern | Story | Reused By |

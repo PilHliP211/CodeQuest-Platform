@@ -1,0 +1,10 @@
+{
+  "title": "Flag Hunter Interpreter Dev Harness",
+  "prompt": "Run Japan flag code through the sandboxed interpreter. Allowed code records drawing calls. Blocked code returns a friendly message.",
+  "initialCode": "fillBackground(\"white\")\ndrawCircle(150, 100, 60, \"red\")",
+  "blockedCode": "window.alert(\"x\")",
+  "availableFunctions": [
+    "fillBackground",
+    "drawCircle"
+  ]
+}

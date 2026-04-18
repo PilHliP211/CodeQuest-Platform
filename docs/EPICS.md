@@ -41,6 +41,16 @@ Every remaining epic (E-06 onward) must end with both:
 
 Temporary routes such as `/__dev/interpreter` are allowed for foundational work, but they must be documented as dev-only and removed or folded into the product path once the relevant lesson screen exists.
 
+### Temporary Dev Harness Convention
+
+All future temporary dev harnesses must be isolated so cleanup is mechanical:
+
+- Put harness screens, harness-only loaders, and route-only helpers in `src/devHarnesses/`.
+- Put harness-only content fixtures in `content/flag-hunter/dev-harnesses/`.
+- Route harnesses from `App.tsx` using `/__dev/...`.
+- Do not place harness files beside production components, engine modules, renderer modules, or lesson code.
+- The epic that replaces a harness with product UI must delete the matching `/__dev/...` route, its App test coverage, `src/devHarnesses/` files, and `content/flag-hunter/dev-harnesses/` fixtures that are no longer needed.
+
 ---
 
 ## v1 Epics (Detailed)

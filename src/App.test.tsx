@@ -17,11 +17,14 @@ vi.mock('@/components/HUD/HUDLayout', () => ({
 vi.mock('@/components/Map/MapScreen', () => ({
   MapScreen: () => <div>map-screen</div>,
 }));
-vi.mock('@/editor/DevBlockEditorScreen', () => ({
+vi.mock('@/devHarnesses/DevBlockEditorScreen', () => ({
   DevBlockEditorScreen: () => <div>dev-block-editor</div>,
 }));
-vi.mock('@/editor/DevSyntaxEditorScreen', () => ({
+vi.mock('@/devHarnesses/DevSyntaxEditorScreen', () => ({
   DevSyntaxEditorScreen: () => <div>dev-syntax-editor</div>,
+}));
+vi.mock('@/devHarnesses/DevInterpreterScreen', () => ({
+  DevInterpreterScreen: () => <div>dev-interpreter</div>,
 }));
 
 import { useProfile } from '@/engine/useProfile';
@@ -87,5 +90,13 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.getByText('dev-syntax-editor')).toBeInTheDocument();
+  });
+
+  it('shows the temporary interpreter harness on the dev route', () => {
+    window.history.pushState({}, '', '/codequest-platform/__dev/interpreter');
+
+    renderWithError(null);
+
+    expect(screen.getByText('dev-interpreter')).toBeInTheDocument();
   });
 });

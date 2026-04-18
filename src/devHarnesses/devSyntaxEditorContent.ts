@@ -1,4 +1,4 @@
-import rawDevSyntaxEditorContent from '../../content/flag-hunter/dev-syntax-editor.json';
+import rawDevSyntaxEditorContent from '../../content/flag-hunter/dev-harnesses/dev-syntax-editor.json';
 import type { AvailableFunction, BlockDef } from '@/types/content';
 
 export interface DevSyntaxEditorContent {
