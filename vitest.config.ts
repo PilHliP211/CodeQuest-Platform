@@ -7,6 +7,7 @@ export default defineConfig({
     alias: {
       '@': new URL('./src', import.meta.url).pathname,
       '@content': new URL('./content', import.meta.url).pathname,
+      'monaco-editor': new URL('./src/test/monacoEditorMock.ts', import.meta.url).pathname,
     },
   },
   test: {

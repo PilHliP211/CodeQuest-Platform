@@ -20,6 +20,9 @@ vi.mock('@/components/Map/MapScreen', () => ({
 vi.mock('@/editor/DevBlockEditorScreen', () => ({
   DevBlockEditorScreen: () => <div>dev-block-editor</div>,
 }));
+vi.mock('@/editor/DevSyntaxEditorScreen', () => ({
+  DevSyntaxEditorScreen: () => <div>dev-syntax-editor</div>,
+}));
 
 import { useProfile } from '@/engine/useProfile';
 const mockUseProfile = vi.mocked(useProfile);
@@ -76,5 +79,13 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.getByText('dev-block-editor')).toBeInTheDocument();
+  });
+
+  it('shows the temporary syntax editor harness on the dev route', () => {
+    window.history.pushState({}, '', '/codequest-platform/__dev/syntax-editor');
+
+    renderWithError(null);
+
+    expect(screen.getByText('dev-syntax-editor')).toBeInTheDocument();
   });
 });

@@ -1,0 +1,58 @@
+{
+  "packId": "flag-hunter",
+  "lessonId": "001-japan",
+  "title": "Flag Hunter Syntax Editor Dev Harness",
+  "prompt": "Restore Japan's flag with code. Fill the background white, then draw the red circle.",
+  "initialCode": "fillBackground(\"white\")\ndrawCircle(150, 100, 60, \"red\")",
+  "solutionCode": "fillBackground(\"white\")\ndrawCircle(150, 100, 60, \"red\")",
+  "fallbackAfterAttempts": 3,
+  "availableFunctions": [
+    {
+      "name": "fillBackground",
+      "signature": "fillBackground(color: string)",
+      "description": "Fill the entire canvas with a color",
+      "example": "fillBackground(\"white\")"
+    },
+    {
+      "name": "drawCircle",
+      "signature": "drawCircle(x: number, y: number, radius: number, color: string)",
+      "description": "Draw a filled circle at position (x, y)",
+      "example": "drawCircle(150, 100, 60, \"red\")"
+    }
+  ],
+  "availableBlocks": ["fillBackground", "drawCircle"],
+  "blocks": [
+    {
+      "id": "fillBackground",
+      "label": "Fill Background",
+      "category": "Drawing",
+      "color": 20,
+      "code": "fillBackground(\"white\")",
+      "blocklyDef": {
+        "type": "fillBackground",
+        "message0": "Fill background white",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 20,
+        "tooltip": "Fill the whole flag with a color",
+        "helpUrl": ""
+      }
+    },
+    {
+      "id": "drawCircle",
+      "label": "Draw Circle",
+      "category": "Drawing",
+      "color": 20,
+      "code": "drawCircle(150, 100, 60, \"red\")",
+      "blocklyDef": {
+        "type": "drawCircle",
+        "message0": "Draw red circle",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 20,
+        "tooltip": "Draw the red circle in the middle of the flag",
+        "helpUrl": ""
+      }
+    }
+  ]
+}
