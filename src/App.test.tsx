@@ -23,6 +23,9 @@ vi.mock('@/editor/DevBlockEditorScreen', () => ({
 vi.mock('@/editor/DevSyntaxEditorScreen', () => ({
   DevSyntaxEditorScreen: () => <div>dev-syntax-editor</div>,
 }));
+vi.mock('@/engine/interpreter/DevInterpreterScreen', () => ({
+  DevInterpreterScreen: () => <div>dev-interpreter</div>,
+}));
 
 import { useProfile } from '@/engine/useProfile';
 const mockUseProfile = vi.mocked(useProfile);
@@ -87,5 +90,13 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.getByText('dev-syntax-editor')).toBeInTheDocument();
+  });
+
+  it('shows the temporary interpreter harness on the dev route', () => {
+    window.history.pushState({}, '', '/codequest-platform/__dev/interpreter');
+
+    renderWithError(null);
+
+    expect(screen.getByText('dev-interpreter')).toBeInTheDocument();
   });
 });
