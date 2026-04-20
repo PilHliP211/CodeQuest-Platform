@@ -26,6 +26,9 @@ vi.mock('@/devHarnesses/DevSyntaxEditorScreen', () => ({
 vi.mock('@/devHarnesses/DevInterpreterScreen', () => ({
   DevInterpreterScreen: () => <div>dev-interpreter</div>,
 }));
+vi.mock('@/devHarnesses/DevCanvasScreen', () => ({
+  DevCanvasScreen: () => <div>dev-canvas</div>,
+}));
 
 import { useProfile } from '@/engine/useProfile';
 const mockUseProfile = vi.mocked(useProfile);
@@ -98,5 +101,13 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.getByText('dev-interpreter')).toBeInTheDocument();
+  });
+
+  it('shows the temporary canvas harness on the dev route', () => {
+    window.history.pushState({}, '', '/codequest-platform/__dev/canvas');
+
+    renderWithError(null);
+
+    expect(screen.getByText('dev-canvas')).toBeInTheDocument();
   });
 });
