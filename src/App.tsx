@@ -6,6 +6,7 @@ import { SettingsScreen } from '@/components/Profile/SettingsScreen';
 import { HUDLayout } from '@/components/HUD/HUDLayout';
 import { MapScreen } from '@/components/Map/MapScreen';
 import { DevBlockEditorScreen } from '@/devHarnesses/DevBlockEditorScreen';
+import { DevCanvasScreen } from '@/devHarnesses/DevCanvasScreen';
 import { DevInterpreterScreen } from '@/devHarnesses/DevInterpreterScreen';
 import { DevSyntaxEditorScreen } from '@/devHarnesses/DevSyntaxEditorScreen';
 
@@ -16,6 +17,7 @@ function App(): React.JSX.Element {
   const isDevBlockEditorRoute = window.location.pathname.endsWith('/__dev/block-editor');
   const isDevSyntaxEditorRoute = window.location.pathname.endsWith('/__dev/syntax-editor');
   const isDevInterpreterRoute = window.location.pathname.endsWith('/__dev/interpreter');
+  const isDevCanvasRoute = window.location.pathname.endsWith('/__dev/canvas');
 
   if (isDevBlockEditorRoute) {
     return <DevBlockEditorScreen />;
@@ -27,6 +29,10 @@ function App(): React.JSX.Element {
 
   if (isDevInterpreterRoute) {
     return <DevInterpreterScreen />;
+  }
+
+  if (isDevCanvasRoute) {
+    return <DevCanvasScreen />;
   }
 
   if (contentError !== null) {
