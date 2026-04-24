@@ -5,7 +5,11 @@ import { MapCanvas } from './MapCanvas';
 import { PlayerMarker } from './PlayerMarker';
 import { VillainTrail } from './VillainTrail';
 
-export function MapScreen(): React.ReactElement {
+interface MapScreenProps {
+  onNodeSelect: (nodeId: string) => void;
+}
+
+export function MapScreen({ onNodeSelect }: MapScreenProps): React.ReactElement {
   const { course } = useContent();
   const { map } = course;
 
@@ -16,11 +20,6 @@ export function MapScreen(): React.ReactElement {
   const [animateTo, setAnimateTo] = useState<string | undefined>(undefined);
   // setAnimateTo will be called from E-11; referenced here to satisfy TypeScript
   void setAnimateTo;
-
-  function handleNodeSelect(nodeId: string): void {
-    // TODO(E-11): trigger lesson start for nodeId
-    console.warn('Node selected \u2014 lesson start not yet implemented:', nodeId);
-  }
 
   function handleAnimationEnd(): void {
     // After animation, update current node to the destination
@@ -59,7 +58,7 @@ export function MapScreen(): React.ReactElement {
   return (
     <div className="relative overflow-hidden" style={{ width: map.width, height: map.height }}>
       <MapCanvas
-        onNodeSelect={handleNodeSelect}
+        onNodeSelect={onNodeSelect}
         currentNodeId={currentNodeId}
         animateTo={animateTo}
         onAnimationEnd={handleAnimationEnd}

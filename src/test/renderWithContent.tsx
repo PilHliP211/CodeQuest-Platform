@@ -2,7 +2,8 @@ import React from 'react';
 import { render, type RenderResult } from '@testing-library/react';
 import { ContentContext } from '@/engine/ContentContext';
 import { testCourse } from './contentFixture';
-import type { Course } from '@/types/content';
+import { testLesson } from './lessonFixture';
+import type { Course, Lesson } from '@/types/content';
 
 /**
  * Renders a component inside a ContentContext provider pre-loaded with the
@@ -11,6 +12,9 @@ import type { Course } from '@/types/content';
 export function renderWithContent(
   ui: React.ReactElement,
   course: Course = testCourse,
+  lessons: readonly Lesson[] = [testLesson],
 ): RenderResult {
-  return render(<ContentContext.Provider value={{ course }}>{ui}</ContentContext.Provider>);
+  return render(
+    <ContentContext.Provider value={{ course, lessons }}>{ui}</ContentContext.Provider>,
+  );
 }

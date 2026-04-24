@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ContentErrorContext } from '@/engine/ContentContext';
+import { userEvent } from '@testing-library/user-event';
+import { ContentContext, ContentErrorContext } from '@/engine/ContentContext';
+import { testCourse } from '@/test/contentFixture';
+import { testLesson } from '@/test/lessonFixture';
 import { App } from './App';
 
 // Mock all engine modules the app depends on so tests are self-contained
@@ -15,19 +18,19 @@ vi.mock('@/components/HUD/HUDLayout', () => ({
   HUDLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 vi.mock('@/components/Map/MapScreen', () => ({
-  MapScreen: () => <div>map-screen</div>,
+  MapScreen: ({ onNodeSelect }: { onNodeSelect: (nodeId: string) => void }) => (
+    <button
+      type="button"
+      onClick={() => {
+        onNodeSelect('001-japan');
+      }}
+    >
+      Japan map node
+    </button>
+  ),
 }));
-vi.mock('@/devHarnesses/DevBlockEditorScreen', () => ({
-  DevBlockEditorScreen: () => <div>dev-block-editor</div>,
-}));
-vi.mock('@/devHarnesses/DevSyntaxEditorScreen', () => ({
-  DevSyntaxEditorScreen: () => <div>dev-syntax-editor</div>,
-}));
-vi.mock('@/devHarnesses/DevInterpreterScreen', () => ({
-  DevInterpreterScreen: () => <div>dev-interpreter</div>,
-}));
-vi.mock('@/devHarnesses/DevCanvasScreen', () => ({
-  DevCanvasScreen: () => <div>dev-canvas</div>,
+vi.mock('@/components/Lesson/LessonScreen', () => ({
+  LessonScreen: ({ lesson }: { lesson: { title: string } }) => <div>lesson-{lesson.title}</div>,
 }));
 
 import { useProfile } from '@/engine/useProfile';
@@ -46,7 +49,9 @@ beforeEach(() => {
 function renderWithError(error: string | null): ReturnType<typeof render> {
   return render(
     <ContentErrorContext.Provider value={error}>
-      <App />
+      <ContentContext.Provider value={{ course: testCourse, lessons: [testLesson] }}>
+        <App />
+      </ContentContext.Provider>
     </ContentErrorContext.Provider>,
   );
 }
@@ -64,7 +69,7 @@ describe('App content error gate', () => {
     renderWithError(null);
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    expect(screen.getByText('map-screen')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /japan map node/i })).toBeInTheDocument();
   });
 
   it('shows NameEntryScreen when there is no content error and profile is null', () => {
@@ -79,35 +84,12 @@ describe('App content error gate', () => {
     expect(screen.getByText('name-entry')).toBeInTheDocument();
   });
 
-  it('shows the temporary block editor harness on the dev route', () => {
-    window.history.pushState({}, '', '/codequest-platform/__dev/block-editor');
-
+  it('opens the selected lesson from the map node', async () => {
     renderWithError(null);
+    const user = userEvent.setup();
 
-    expect(screen.getByText('dev-block-editor')).toBeInTheDocument();
-  });
+    await user.click(screen.getByRole('button', { name: /japan map node/i }));
 
-  it('shows the temporary syntax editor harness on the dev route', () => {
-    window.history.pushState({}, '', '/codequest-platform/__dev/syntax-editor');
-
-    renderWithError(null);
-
-    expect(screen.getByText('dev-syntax-editor')).toBeInTheDocument();
-  });
-
-  it('shows the temporary interpreter harness on the dev route', () => {
-    window.history.pushState({}, '', '/codequest-platform/__dev/interpreter');
-
-    renderWithError(null);
-
-    expect(screen.getByText('dev-interpreter')).toBeInTheDocument();
-  });
-
-  it('shows the temporary canvas harness on the dev route', () => {
-    window.history.pushState({}, '', '/codequest-platform/__dev/canvas');
-
-    renderWithError(null);
-
-    expect(screen.getByText('dev-canvas')).toBeInTheDocument();
+    expect(screen.getByText('lesson-Japan')).toBeInTheDocument();
   });
 });

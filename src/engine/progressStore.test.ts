@@ -1,6 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { readStorage, writeStorage } from './storage';
-import { loadSyntaxUnlocked, saveSyntaxUnlocked, type LessonProgressRecord } from './progressStore';
+import {
+  addXP,
+  getTotalXP,
+  loadSyntaxUnlocked,
+  saveSyntaxUnlocked,
+  type LessonProgressRecord,
+} from './progressStore';
 
 const progressKey = 'codequest:progress:flag-hunter:001-japan';
 
@@ -44,5 +50,28 @@ describe('progressStore syntax unlocks', () => {
     });
 
     expect(loadSyntaxUnlocked('flag-hunter', '001-japan')).toBe(false);
+  });
+});
+
+describe('progressStore XP', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it('starts with zero XP when no progress exists', () => {
+    expect(getTotalXP()).toBe(0);
+  });
+
+  it('adds XP to the persisted total', () => {
+    addXP(10);
+    addXP(15);
+
+    expect(getTotalXP()).toBe(25);
+  });
+
+  it('ignores corrupted XP totals', () => {
+    writeStorage('codequest:xp', 'not-a-number');
+
+    expect(getTotalXP()).toBe(0);
   });
 });

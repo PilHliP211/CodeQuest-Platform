@@ -9,14 +9,17 @@ const blocklyMock = vi.hoisted(() => {
     disposed: boolean;
     state: Record<string, unknown>;
     dispose: () => void;
+    getToolbox: () => { selectItemByPosition: (position: number) => void };
   }
 
   const lastWorkspace = { current: null as MockWorkspace | null };
   const lastInjectOptions = { current: null as Record<string, unknown> | null };
+  const selectItemByPosition = vi.fn();
 
   return {
     lastWorkspace,
     lastInjectOptions,
+    selectItemByPosition,
     defineBlocksWithJsonArray: vi.fn(),
     inject: vi.fn((_element: Element, options: unknown): MockWorkspace => {
       lastInjectOptions.current = options as Record<string, unknown>;
@@ -25,6 +28,9 @@ const blocklyMock = vi.hoisted(() => {
         state: {},
         dispose(): void {
           this.disposed = true;
+        },
+        getToolbox() {
+          return { selectItemByPosition };
         },
       };
       lastWorkspace.current = workspace;
@@ -97,6 +103,7 @@ describe('BlockEditor', () => {
     blocklyMock.lastInjectOptions.current = null;
     blocklyMock.defineBlocksWithJsonArray.mockClear();
     blocklyMock.inject.mockClear();
+    blocklyMock.selectItemByPosition.mockClear();
     blocklyMock.save.mockClear();
     blocklyMock.load.mockClear();
     javascriptMock.workspaceToCode.mockClear();
@@ -257,6 +264,20 @@ describe('BlockEditor', () => {
         screen.queryByRole('button', { name: /what are these code labels/i }),
       ).not.toBeInTheDocument();
     });
+  });
+
+  it('opens the first toolbox category so learners can see blocks to drag', () => {
+    render(
+      <BlockEditor
+        phase={1}
+        blockDefs={blockDefs}
+        availableBlocks={['moveEast']}
+        isRunning={false}
+        onCodeGenerated={vi.fn()}
+      />,
+    );
+
+    expect(blocklyMock.selectItemByPosition).toHaveBeenCalledWith(0);
   });
 
   describe('Phase 2', () => {

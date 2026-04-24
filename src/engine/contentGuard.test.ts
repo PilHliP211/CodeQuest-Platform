@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { isCourse } from './contentGuard';
+import { testLesson } from '@/test/lessonFixture';
+import { isCourse, isLesson } from './contentGuard';
 
 const validCourse = {
   id: 'flag-hunter',
@@ -130,5 +131,40 @@ describe('isCourse', () => {
   it('rejects a course where "player.sprite" is not a string', () => {
     const bad = { ...validCourse, player: { sprite: false } };
     expect(isCourse(bad)).toBe(false);
+  });
+});
+
+describe('isLesson', () => {
+  it('accepts a valid lesson pack', () => {
+    expect(isLesson(testLesson)).toBe(true);
+  });
+
+  it('rejects a lesson without phase 3 canvas functions', () => {
+    const badLesson = {
+      ...testLesson,
+      phase3: {
+        ...testLesson.phase3,
+        canvas: {
+          ...testLesson.phase3.canvas,
+          availableFunctions: undefined,
+        },
+      },
+    };
+
+    expect(isLesson(badLesson)).toBe(false);
+  });
+
+  it('rejects a lesson with invalid block definitions', () => {
+    const firstBlock = testLesson.blocks[0];
+    if (firstBlock === undefined) {
+      throw new Error('Expected test lesson to include a block.');
+    }
+
+    const badLesson = {
+      ...testLesson,
+      blocks: [{ ...firstBlock, code: 42 }],
+    };
+
+    expect(isLesson(badLesson)).toBe(false);
   });
 });
