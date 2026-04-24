@@ -1,8 +1,9 @@
 import { createContext } from 'react';
-import type { Course } from '@/types/content';
+import type { Course, Lesson } from '@/types/content';
 
 export interface ContentContextValue {
   course: Course;
+  lessons: readonly Lesson[];
 }
 
 // Exported for ContentProvider and useContent only — consumers must use useContent(), not useContext directly.

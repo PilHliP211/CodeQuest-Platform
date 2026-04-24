@@ -105,6 +105,7 @@ export const BlockEditor = forwardRef<BlockEditorHandle, BlockEditorProps>(funct
     });
 
     workspaceRef.current = workspace;
+    workspace.getToolbox()?.selectItemByPosition(0);
 
     if (initialWorkspaceState !== undefined) {
       Blockly.serialization.workspaces.load(initialWorkspaceState, workspace);
@@ -130,7 +131,7 @@ export const BlockEditor = forwardRef<BlockEditorHandle, BlockEditorProps>(funct
         <div
           ref={containerRef}
           aria-label="Block coding workspace"
-          className="min-h-96 w-full border-4 border-gray-950 bg-gray-950"
+          className="h-96 w-full border-4 border-gray-950 bg-gray-950"
         />
         {phase === 2 && (
           <div className="absolute right-2 top-2">

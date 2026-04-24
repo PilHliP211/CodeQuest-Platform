@@ -1,39 +1,18 @@
 import React, { useContext, useState } from 'react';
 import { useProfile } from '@/engine/useProfile';
-import { ContentErrorContext } from '@/engine/ContentContext';
+import { ContentContext, ContentErrorContext } from '@/engine/ContentContext';
 import { NameEntryScreen } from '@/components/Profile/NameEntryScreen';
 import { SettingsScreen } from '@/components/Profile/SettingsScreen';
 import { HUDLayout } from '@/components/HUD/HUDLayout';
 import { MapScreen } from '@/components/Map/MapScreen';
-import { DevBlockEditorScreen } from '@/devHarnesses/DevBlockEditorScreen';
-import { DevCanvasScreen } from '@/devHarnesses/DevCanvasScreen';
-import { DevInterpreterScreen } from '@/devHarnesses/DevInterpreterScreen';
-import { DevSyntaxEditorScreen } from '@/devHarnesses/DevSyntaxEditorScreen';
+import { LessonScreen } from '@/components/Lesson/LessonScreen';
 
 function App(): React.JSX.Element {
   const contentError = useContext(ContentErrorContext);
+  const content = useContext(ContentContext);
   const { profile } = useProfile();
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const isDevBlockEditorRoute = window.location.pathname.endsWith('/__dev/block-editor');
-  const isDevSyntaxEditorRoute = window.location.pathname.endsWith('/__dev/syntax-editor');
-  const isDevInterpreterRoute = window.location.pathname.endsWith('/__dev/interpreter');
-  const isDevCanvasRoute = window.location.pathname.endsWith('/__dev/canvas');
-
-  if (isDevBlockEditorRoute) {
-    return <DevBlockEditorScreen />;
-  }
-
-  if (isDevSyntaxEditorRoute) {
-    return <DevSyntaxEditorScreen />;
-  }
-
-  if (isDevInterpreterRoute) {
-    return <DevInterpreterScreen />;
-  }
-
-  if (isDevCanvasRoute) {
-    return <DevCanvasScreen />;
-  }
+  const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
 
   if (contentError !== null) {
     return (
@@ -53,6 +32,21 @@ function App(): React.JSX.Element {
     );
   }
 
+  if (content === undefined) {
+    return (
+      <main
+        role="alert"
+        aria-live="assertive"
+        className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-8 text-center"
+      >
+        <h1 className="mb-4 font-['Press_Start_2P'] text-xl text-red-400">Content Pack Error</h1>
+        <p className="max-w-lg font-['Press_Start_2P'] text-sm leading-relaxed text-gray-200">
+          The game content is unavailable.
+        </p>
+      </main>
+    );
+  }
+
   if (profile === null) {
     return <NameEntryScreen />;
   }
@@ -67,13 +61,29 @@ function App(): React.JSX.Element {
     );
   }
 
+  const activeLesson =
+    activeLessonId === null
+      ? null
+      : (content.lessons.find((lesson) => lesson.id === activeLessonId) ?? null);
+
+  if (activeLesson !== null) {
+    return (
+      <LessonScreen
+        lesson={activeLesson}
+        onReturnToMap={() => {
+          setActiveLessonId(null);
+        }}
+      />
+    );
+  }
+
   return (
     <HUDLayout
       onOpenSettings={() => {
         setSettingsOpen(true);
       }}
     >
-      <MapScreen />
+      <MapScreen onNodeSelect={setActiveLessonId} />
     </HUDLayout>
   );
 }

@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { ContentProvider } from './ContentProvider';
 import { ContentErrorContext } from './ContentContext';
 import { useContent } from './useContent';
+import { testLesson } from '@/test/lessonFixture';
 import type { Course } from '@/types/content';
 
 // Minimal valid course fixture
@@ -46,8 +47,12 @@ beforeEach(() => {
 });
 
 function CourseTitle(): React.ReactElement {
-  const { course } = useContent();
-  return <span>{course.title}</span>;
+  const { course, lessons } = useContent();
+  return (
+    <span>
+      {course.title}: {lessons[0]?.title}
+    </span>
+  );
 }
 
 function ErrorDisplay(): React.ReactElement {
@@ -57,7 +62,7 @@ function ErrorDisplay(): React.ReactElement {
 
 describe('ContentProvider', () => {
   it('makes the course available to children via useContent when load succeeds', () => {
-    mockLoadContent.mockReturnValue(validCourse);
+    mockLoadContent.mockReturnValue({ course: validCourse, lessons: [testLesson] });
 
     render(
       <ContentProvider>
@@ -65,11 +70,11 @@ describe('ContentProvider', () => {
       </ContentProvider>,
     );
 
-    expect(screen.getByText('CodeQuest: Flag Hunter')).toBeInTheDocument();
+    expect(screen.getByText('CodeQuest: Flag Hunter: Japan')).toBeInTheDocument();
   });
 
   it('exposes a null error when load succeeds', () => {
-    mockLoadContent.mockReturnValue(validCourse);
+    mockLoadContent.mockReturnValue({ course: validCourse, lessons: [testLesson] });
 
     render(
       <ContentProvider>

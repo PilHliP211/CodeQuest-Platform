@@ -4,6 +4,8 @@ export type LessonProgressRecord = Record<string, unknown> & {
   syntaxUnlocked?: boolean;
 };
 
+const XP_KEY = 'codequest:xp';
+
 function progressKey(packId: string, lessonId: string): string {
   return `codequest:progress:${packId}:${lessonId}`;
 }
@@ -33,4 +35,20 @@ export function saveSyntaxUnlocked(packId: string, lessonId: string): void {
     ...(existingProgress ?? {}),
     syntaxUnlocked: true,
   });
+}
+
+function isStoredXP(value: unknown): value is number {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0;
+}
+
+export function getTotalXP(): number {
+  return readStorage(XP_KEY, isStoredXP) ?? 0;
+}
+
+export function addXP(amount: number): void {
+  if (!Number.isFinite(amount)) {
+    return;
+  }
+
+  writeStorage(XP_KEY, Math.max(0, getTotalXP() + amount));
 }

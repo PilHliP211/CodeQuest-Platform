@@ -6,31 +6,26 @@ import { MapScreen } from './MapScreen';
 
 describe('MapScreen', () => {
   it('renders the map canvas with nodes', () => {
-    renderWithContent(<MapScreen />);
+    renderWithContent(<MapScreen onNodeSelect={vi.fn()} />);
 
     expect(screen.getByRole('button', { name: /japan/i })).toBeInTheDocument();
   });
 
   it('renders the player marker image', () => {
-    const { container } = renderWithContent(<MapScreen />);
+    const { container } = renderWithContent(<MapScreen onNodeSelect={vi.fn()} />);
 
     // Player marker is decorative (alt=""), look for aria-hidden images
     const imgs = container.querySelectorAll('img[aria-hidden="true"]');
     expect(imgs.length).toBeGreaterThan(0);
   });
 
-  it('logs a warning when an available node is clicked', async () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    renderWithContent(<MapScreen />);
+  it('opens a lesson when an available node is clicked', async () => {
+    const handleNodeSelect = vi.fn();
+    renderWithContent(<MapScreen onNodeSelect={handleNodeSelect} />);
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('button', { name: /japan/i }));
 
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('lesson start not yet implemented'),
-      '001-japan',
-    );
-
-    warnSpy.mockRestore();
+    expect(handleNodeSelect).toHaveBeenCalledWith('001-japan');
   });
 });
